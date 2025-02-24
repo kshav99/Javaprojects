@@ -3,297 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OAuth2 Odyssey</title>
+    <title>OAuth2 Demo</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            height: 100vh;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            /* Changed body background to dark grey gradient */
-            background: linear-gradient(135deg, #222, #333);
-            overflow: hidden;
-            position: relative;
+            color: #fff;
         }
 
-        /* Wave background */
-        .wave {
+        #particles {
             position: absolute;
-            bottom: 0;
-            left: 0;
             width: 100%;
-            height: 150px;
-            /* Changed wave color to a darker shade */
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.29,158,28,58.36-4.53,112.39-28.69,171-28.69,58.62,0,116.61,24.16,175,28.69,54.41,4.28,110.21-5.81,158-28C720.61,21.51,776.41,11.42,834,15.71c58.62,4.29,116.61,24.16,175,28.69C1063.41,48.68,1119.21,38.59,1167,16.39,1214.8-5.81,1200,0,1200,0H0Z" fill="rgba(100,100,100,0.2)"/></svg>');
-            background-size: cover;
-            animation: waveMove 8s infinite ease-in-out;
+            height: 100%;
+            pointer-events: none;
         }
 
-        @keyframes waveMove {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(-20%); }
-            100% { transform: translateX(0); }
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            animation: float infinite linear;
+            opacity: 0.5;
         }
 
-        .container {
-            /* Changed container background to dark grey with slight transparency */
-            background: rgba(50, 50, 50, 0.85);
-            padding: 40px;
-            border-radius: 15px;
-            /* Changed container box-shadow to darker shades and green accent */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 100, 0, 0.2);
-            width: 480px;
+        @keyframes float {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        #login-container, #success-container {
             text-align: center;
-            transition: all 0.5s ease;
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .container.success {
-            /* Changed success container box-shadow to green shades */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 200, 0, 0.6);
-        }
-
-        h1 {
-            /* Changed heading color to light grey */
-            color: #eee;
-            font-size: 2.3em;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            /* Changed heading text-shadow to darker shade */
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-
-        p {
-            /* Changed paragraph color to light grey */
-            color: #ccc;
-            font-size: 1.2em;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .btn {
-            padding: 14px 35px;
-            /* Changed button background to grey and green gradient */
-            background: linear-gradient(45deg, #555, #666, #444);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.3em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            /* Changed button box-shadow to darker and green accent */
-            box-shadow: 0 5px 15px rgba(0, 100, 0, 0.3);
-            font-weight: 500;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            /* Changed button hover box-shadow and background */
-            box-shadow: 0 8px 25px rgba(0, 150, 0, 0.5);
-            background: linear-gradient(45deg, #666, #777, #555);
-        }
-
-        .btn.logout {
-            /* Changed logout button background to darker greys */
-            background: linear-gradient(45deg, #444, #555, #333);
-        }
-
-        .btn.logout:hover {
-            /* Changed logout button hover background */
-            background: linear-gradient(45deg, #555, #666, #444);
-        }
-
-        .highlight {
-            /* Changed highlight color to light green */
-            color: #98FB98;
-            font-weight: 600;
-            /* Changed highlight text-shadow */
-            text-shadow: 0 1px 3px rgba(0, 150, 0, 0.3);
-        }
-
-        .user-info {
-            margin: 20px 0;
-            padding: 20px;
-            /* Changed user-info background to darker grey */
-            background: rgba(70, 70, 70, 0.9);
-            border-radius: 10px;
-            border: 1px solid #888;
-            /* Changed user-info box-shadow */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .fun-fact {
-            /* Changed fun-fact color to light green */
-            color: #90EE90;
-            font-style: italic;
-            margin-top: 15px;
-            font-size: 1.1em;
-            /* Changed fun-fact text-shadow */
-            text-shadow: 0 1px 2px rgba(0, 120, 0, 0.2);
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
         }
 
         .hidden {
             display: none;
         }
 
-        .loader {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            /* Changed loader border-top color to green */
-            border-top: 4px solid #98FB98;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #3267d6;
+        }
+
+        #logoutBtn {
+            background-color: #f44336;
+        }
+
+        #logoutBtn:hover {
+            background-color: #d32f2f;
+        }
+
+        #loader {
+            margin-top: 20px;
+            font-size: 14px;
             display: none;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .confirmation-modal {
-            display: none;
+        #logoutModal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(5px);
         }
 
-        .modal-content {
-            /* Changed modal-content background to dark grey */
-            background: #444;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        #logoutModal div {
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
-            width: 320px;
-            animation: fadeIn 0.3s ease-in;
-            color: #eee; /* Added text color for modal content */
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .modal-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
+        #logoutModal button {
+            margin: 10px;
+            padding: 8px 16px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            color: white; /* Ensure text is white on modal buttons */
         }
 
-        .modal-btn.confirm {
-            /* Changed confirm button background to green */
-            background: #4CAF50;
+        #confirmLogout {
+            background-color: #f44336;
+            color: white;
         }
 
-        .modal-btn.cancel {
-            /* Changed cancel button background to dark grey */
-            background: #777;
+        #cancelLogout {
+            background-color: #ccc;
         }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            opacity: 0.9;
-        }
-
-        /* Particles */
-        #particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            /* Changed particle background to dark green with transparency */
-            background: rgba(0, 150, 0, 0.2);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(1); opacity: 0.6; }
-            50% { transform: translateY(50vh) scale(1.2); opacity: 0.8; }
-            100% { transform: translateY(0vh) scale(1); opacity: 0.6; }
-        }
-
-        /* Confetti for success - REMOVED Confetti as per dark theme request */
-        /*.confetti {*/
-        /*    position: absolute;*/
-        /*    width: 8px;*/
-        /*    height: 8px;*/
-        /*    background: hsl(${Math.random() * 360}, 100%, 50%);*/
-        /*    animation: fall 4s linear infinite;*/
-        /*    z-index: 2;*/
-        /*}*/
-
-        /*@keyframes fall {*/
-        /*    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }*/
-        /*    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }*/
-        /*}*/
     </style>
 </head>
 <body>
-<div class="wave"></div>
 <div id="particles"></div>
-<div class="container" id="login-container">
-    <h1>OAuth2 Odyssey</h1>
-    <p>Embark on your secure journey with GitHub:</p>
-    <button class="btn" id="loginBtn">Login with GitHub</button>
+<div id="login-container">
+    <h1>Welcome to OAuth2 Demo</h1>
+    <button id="loginBtn" class="btn">Login with GitHub</button>
 </div>
-<div class="container hidden" id="success-container">
-    <h1>Quest Completed!</h1>
-    <p>Welcome, <span class="highlight" id="userName">Explorer</span>!</p>
-    <div class="user-info">
-        <p>Email: <span class="highlight" id="userEmail">email@example.com</span></p>
-    </div>
-    <div class="loader" id="loader"></div>
-    <p class="fun-fact" id="funFact">Loading your epic victory...</p>
-    <button class="btn logout" id="logoutBtn">Logout</button>
+<div id="success-container" class="hidden">
+    <h1>Quest Completed! Welcome, <span id="userName"></span>!</h1>
+    <p>Email: <span id="userEmail"></span></p>
+    <p id="funFact"></p>
+    <button id="logoutBtn" class="btn">Logout</button>
+    <div id="loader">Loading...</div>
 </div>
-<div class="confirmation-modal" id="logoutModal">
-    <div class="modal-content">
+<div id="logoutModal" class="hidden">
+    <div>
         <p>Are you sure you want to logout?</p>
-        <div class="modal-buttons">
-            <button class="modal-btn confirm" id="confirmLogout">Yes</button>
-            <button class="modal-btn cancel" id="cancelLogout">No</button>
-        </div>
+        <button id="confirmLogout">Yes</button>
+        <button id="cancelLogout">No</button>
     </div>
 </div>
 
@@ -314,18 +157,7 @@
     }
     createParticles();
 
-    // Confetti effect for success - REMOVED Confetti effect
-    //function createConfetti() {
-    //    const body = document.body;
-    //    for (let i = 0; i < 50; i++) {
-    //        const confetti = document.createElement('div');
-    //        confetti.className = 'confetti';
-    //        confetti.style.left = `${Math.random() * 100}vw`;
-    //        confetti.style.animationDelay = `${Math.random() * 3}s`;
-    //        body.appendChild(confetti);
-    //    }
-    //}
-
+    // DOM elements
     const loginContainer = document.getElementById('login-container');
     const successContainer = document.getElementById('success-container');
     const loginBtn = document.getElementById('loginBtn');
@@ -338,6 +170,7 @@
     const confirmLogout = document.getElementById('confirmLogout');
     const cancelLogout = document.getElementById('cancelLogout');
 
+    // Fun facts
     const funFacts = [
         "You’ve unlocked the digital frontier!",
         "Welcome to a world of secure connections!",
@@ -345,23 +178,89 @@
         "Celebrate your victorious login!"
     ];
 
+    // Store CSRF token
+    let csrfToken = null;
+    let csrfHeader = null;
+
+    // Fetch CSRF token on page load
+    function fetchCsrfToken() {
+        return fetch('http://localhost:8080/csrf-token', {
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                csrfToken = data.token;
+                csrfHeader = data.headerName; // Usually "X-CSRF-TOKEN"
+                console.log('CSRF Token fetched:', csrfToken);
+            })
+            .catch(error => console.error('Error fetching CSRF token:', error));
+    }
+
+    // Check authentication with retry
+    function checkAuthWithRetry(retries = 3, delay = 1000) {
+        fetch('http://localhost:8080/user-info', {
+            credentials: 'include',
+            headers: { 'Accept': 'application/json' }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json().then(data => ({ status: response.status, data }));
+                }
+                if (response.status === 401 || response.status === 302) {
+                    throw new Error('Authentication check failed');
+                }
+                throw new Error('Unexpected response');
+            })
+            .then(({ status, data }) => {
+                if (status === 200 && data.name) {
+                    sessionStorage.setItem('authenticated', 'true');
+                    showSuccessPage();
+                } else {
+                    showLoginPage();
+                }
+            })
+            .catch(() => {
+                if (retries > 0) {
+                    setTimeout(() => checkAuthWithRetry(retries - 1, delay), delay);
+                } else {
+                    showLoginPage();
+                }
+            });
+    }
+
+    // Show appropriate page
     function showPage() {
         if (window.location.pathname === '/success') {
-            loginContainer.classList.add('hidden');
-            successContainer.classList.remove('hidden');
-            successContainer.classList.add('success');
-            loader.style.display = 'block';
-            fetchUserInfo();
-            //createConfetti(); // REMOVED Confetti
+            showSuccessPage();
+        } else if (sessionStorage.getItem('authenticated') === 'true') {
+            showSuccessPage();
         } else {
-            loginContainer.classList.remove('hidden');
-            successContainer.classList.add('hidden');
-            successContainer.classList.remove('success');
+            checkAuthWithRetry();
         }
     }
 
+    // Display success page
+    function showSuccessPage() {
+        loginContainer.classList.add('hidden');
+        successContainer.classList.remove('hidden');
+        loader.style.display = 'block';
+        fetchUserInfo();
+    }
+
+    // Display login page
+    function showLoginPage() {
+        loginContainer.classList.remove('hidden');
+        successContainer.classList.add('hidden');
+        sessionStorage.removeItem('authenticated');
+        loader.style.display = 'none';
+    }
+
+    // Fetch and display user info
     function fetchUserInfo() {
-        fetch('http://localhost:8080/user-info')
+        fetch('http://localhost:8080/user-info', {
+            credentials: 'include',
+            headers: { 'Accept': 'application/json' }
+        })
             .then(response => {
                 if (!response.ok) throw new Error('Not authenticated');
                 return response.json();
@@ -372,19 +271,15 @@
                 funFact.textContent = funFacts[Math.floor(Math.random() * funFacts.length)];
                 loader.style.display = 'none';
             })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                window.location.href = 'http://localhost:8080/';
+            .catch(() => {
+                showLoginPage();
             });
     }
 
+    // Event listeners
     loginBtn.addEventListener('click', () => {
-        console.log('Attempting to redirect to GitHub OAuth...');
-        try {
-            window.location.href = 'http://localhost:8080/oauth2/authorization/github';
-        } catch (error) {
-            console.error('Redirect failed:', error);
-        }
+        // Add prompt=login to force GitHub login page
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github?prompt=login';
     });
 
     logoutBtn.addEventListener('click', () => {
@@ -392,15 +287,46 @@
     });
 
     confirmLogout.addEventListener('click', () => {
-        window.location.href = 'http://localhost:8080/logout';
+        if (!csrfToken) {
+            fetchCsrfToken().then(() => performLogout());
+        } else {
+            performLogout();
+        }
         logoutModal.style.display = 'none';
     });
+
+    function performLogout() {
+        fetch('http://localhost:8080/logout', {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                [csrfHeader]: csrfToken // Include CSRF token in header
+            }
+        })
+            .then(response => {
+                if (response.ok || response.redirected) {
+                    sessionStorage.removeItem('authenticated');
+                    window.location.href = 'http://localhost:8080/index.html';
+                } else {
+                    console.error('Logout failed:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+            });
+    }
 
     cancelLogout.addEventListener('click', () => {
         logoutModal.style.display = 'none';
     });
 
-    showPage();
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchCsrfToken().then(showPage); // Fetch CSRF token first, then check auth
+    });
+
+    // Handle browser navigation
     window.addEventListener('popstate', showPage);
 </script>
 </body>

@@ -9,13 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class UserController {
 
+
+public class UserController {
     @GetMapping("/user-info")
     public Map<String, String> getUserInfo(@AuthenticationPrincipal OAuth2User principal) {
         Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("name", principal.getAttribute("name") != null ? principal.getAttribute("name") : principal.getAttribute("login")); // GitHub uses "login" for username
-        userInfo.put("email", principal.getAttribute("email")); // May be null if not public
+        userInfo.put("name", principal.getAttribute("name"));
+        userInfo.put("email", principal.getAttribute("email"));
         return userInfo;
     }
 }

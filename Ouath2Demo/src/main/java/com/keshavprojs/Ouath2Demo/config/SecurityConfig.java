@@ -1,4 +1,4 @@
-package com.keshavprojs.Ouath2Demo.config;
+package com.keshavprojs.Ouath2Demo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +12,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/index.html", "/styles.css", "/script.js").permitAll()
+                        .requestMatchers("/index.html", "/", "/login", "/csrf-token").permitAll()
+                        .requestMatchers("/user-info").authenticated()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/success", true)
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/").permitAll()
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/index.html")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .permitAll()
                 );
         return http.build();
     }
