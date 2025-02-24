@@ -17,135 +17,142 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            /* Changed body background to dark grey gradient */
+            background: linear-gradient(135deg, #222, #333);
             overflow: hidden;
             position: relative;
         }
 
+        /* Wave background */
         .wave {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.29,158,28,58.36-4.53,112.39-28.69,171-28.69,58.62,0,116.61,24.16,175,28.69,54.41,4.28,110.21-5.81,158-28C720.61,21.51,776.41,11.42,834,15.71c58.62,4.29,116.61,24.16,175,28.69C1063.41,48.68,1119.21,38.59,1167,16.39,1214.8-5.81,1200,0,1200,0H0Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            height: 150px;
+            /* Changed wave color to a darker shade */
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.29,158,28,58.36-4.53,112.39-28.69,171-28.69,58.62,0,116.61,24.16,175,28.69,54.41,4.28,110.21-5.81,158-28C720.61,21.51,776.41,11.42,834,15.71c58.62,4.29,116.61,24.16,175,28.69C1063.41,48.68,1119.21,38.59,1167,16.39,1214.8-5.81,1200,0,1200,0H0Z" fill="rgba(100,100,100,0.2)"/></svg>');
             background-size: cover;
-            animation: waveMove 10s infinite linear;
+            animation: waveMove 8s infinite ease-in-out;
         }
 
         @keyframes waveMove {
             0% { transform: translateX(0); }
-            50% { transform: translateX(-25%); }
+            50% { transform: translateX(-20%); }
             100% { transform: translateX(0); }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.97);
+            /* Changed container background to dark grey with slight transparency */
+            background: rgba(50, 50, 50, 0.85);
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 0 0 20px rgba(142, 45, 226, 0.3);
-            width: 450px;
+            border-radius: 15px;
+            /* Changed container box-shadow to darker shades and green accent */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 100, 0, 0.2);
+            width: 480px;
             text-align: center;
             transition: all 0.5s ease;
             position: relative;
             z-index: 1;
+            overflow: hidden;
         }
 
         .container.success {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 0 0 30px rgba(0, 255, 127, 0.5);
+            /* Changed success container box-shadow to green shades */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 200, 0, 0.6);
         }
 
         h1 {
-            color: #2c3e50;
-            font-size: 2.2em;
+            /* Changed heading color to light grey */
+            color: #eee;
+            font-size: 2.3em;
             margin-bottom: 20px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            letter-spacing: 1px;
+            /* Changed heading text-shadow to darker shade */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
 
         p {
-            color: #7f8c8d;
+            /* Changed paragraph color to light grey */
+            color: #ccc;
             font-size: 1.2em;
             margin-bottom: 25px;
+            line-height: 1.6;
         }
 
         .btn {
             padding: 14px 35px;
-            background: linear-gradient(45deg, #181818, #4078c0); /* GitHub colors */
+            /* Changed button background to grey and green gradient */
+            background: linear-gradient(45deg, #555, #666, #444);
             color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 25px;
             font-size: 1.3em;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            /* Changed button box-shadow to darker and green accent */
+            box-shadow: 0 5px 15px rgba(0, 100, 0, 0.3);
+            font-weight: 500;
         }
 
         .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            /* Changed button hover box-shadow and background */
+            box-shadow: 0 8px 25px rgba(0, 150, 0, 0.5);
+            background: linear-gradient(45deg, #666, #777, #555);
         }
 
         .btn.logout {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            /* Changed logout button background to darker greys */
+            background: linear-gradient(45deg, #444, #555, #333);
+        }
+
+        .btn.logout:hover {
+            /* Changed logout button hover background */
+            background: linear-gradient(45deg, #555, #666, #444);
         }
 
         .highlight {
-            color: #4078c0; /* GitHub blue */
-            font-weight: bold;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            /* Changed highlight color to light green */
+            color: #98FB98;
+            font-weight: 600;
+            /* Changed highlight text-shadow */
+            text-shadow: 0 1px 3px rgba(0, 150, 0, 0.3);
+        }
+
+        .user-info {
+            margin: 20px 0;
+            padding: 20px;
+            /* Changed user-info background to darker grey */
+            background: rgba(70, 70, 70, 0.9);
+            border-radius: 10px;
+            border: 1px solid #888;
+            /* Changed user-info box-shadow */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .fun-fact {
+            /* Changed fun-fact color to light green */
+            color: #90EE90;
             font-style: italic;
-            color: #8e2de2;
             margin-top: 15px;
             font-size: 1.1em;
+            /* Changed fun-fact text-shadow */
+            text-shadow: 0 1px 2px rgba(0, 120, 0, 0.2);
         }
 
         .hidden {
             display: none;
         }
 
-        #particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            animation: float 12s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(1); }
-            100% { transform: translateY(-20vh) scale(0.8); }
-        }
-
-        .confetti {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: hsl(0, 100%, 50%);
-            animation: fall 4s linear infinite;
-            z-index: 2;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #4078c0;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            /* Changed loader border-top color to green */
+            border-top: 4px solid #98FB98;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -158,6 +165,108 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            /* Changed modal-content background to dark grey */
+            background: #444;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+            animation: fadeIn 0.3s ease-in;
+            color: #eee; /* Added text color for modal content */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: white; /* Ensure text is white on modal buttons */
+        }
+
+        .modal-btn.confirm {
+            /* Changed confirm button background to green */
+            background: #4CAF50;
+        }
+
+        .modal-btn.cancel {
+            /* Changed cancel button background to dark grey */
+            background: #777;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.9;
+        }
+
+        /* Particles */
+        #particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            /* Changed particle background to dark green with transparency */
+            background: rgba(0, 150, 0, 0.2);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(1); opacity: 0.6; }
+            50% { transform: translateY(50vh) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(0vh) scale(1); opacity: 0.6; }
+        }
+
+        /* Confetti for success - REMOVED Confetti as per dark theme request */
+        /*.confetti {*/
+        /*    position: absolute;*/
+        /*    width: 8px;*/
+        /*    height: 8px;*/
+        /*    background: hsl(${Math.random() * 360}, 100%, 50%);*/
+        /*    animation: fall 4s linear infinite;*/
+        /*    z-index: 2;*/
+        /*}*/
+
+        /*@keyframes fall {*/
+        /*    0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }*/
+        /*    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }*/
+        /*}*/
     </style>
 </head>
 <body>
@@ -165,45 +274,57 @@
 <div id="particles"></div>
 <div class="container" id="login-container">
     <h1>OAuth2 Odyssey</h1>
-    <p>Start your quest with GitHub:</p>
+    <p>Embark on your secure journey with GitHub:</p>
     <button class="btn" id="loginBtn">Login with GitHub</button>
 </div>
 <div class="container hidden" id="success-container">
-    <h1>Quest Complete!</h1>
+    <h1>Quest Completed!</h1>
     <p>Welcome, <span class="highlight" id="userName">Explorer</span>!</p>
-    <p>Email: <span class="highlight" id="userEmail">email@example.com</span></p>
+    <div class="user-info">
+        <p>Email: <span class="highlight" id="userEmail">email@example.com</span></p>
+    </div>
     <div class="loader" id="loader"></div>
-    <p class="fun-fact" id="funFact">Loading your victory message...</p>
+    <p class="fun-fact" id="funFact">Loading your epic victory...</p>
     <button class="btn logout" id="logoutBtn">Logout</button>
+</div>
+<div class="confirmation-modal" id="logoutModal">
+    <div class="modal-content">
+        <p>Are you sure you want to logout?</p>
+        <div class="modal-buttons">
+            <button class="modal-btn confirm" id="confirmLogout">Yes</button>
+            <button class="modal-btn cancel" id="cancelLogout">No</button>
+        </div>
+    </div>
 </div>
 
 <script>
+    // Particle effect
     function createParticles() {
         const particlesDiv = document.getElementById('particles');
-        for (let i = 0; i < 60; i++) {
+        for (let i = 0; i < 40; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
-            particle.style.width = `${Math.random() * 6 + 2}px`;
+            particle.style.width = `${Math.random() * 5 + 2}px`;
             particle.style.height = particle.style.width;
             particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.animationDuration = `${Math.random() * 8 + 8}s`;
+            particle.style.animationDuration = `${Math.random() * 12 + 8}s`;
             particle.style.animationDelay = `${Math.random() * 5}s`;
             particlesDiv.appendChild(particle);
         }
     }
     createParticles();
 
-    function createConfetti() {
-        const body = document.body;
-        for (let i = 0; i < 40; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = `${Math.random() * 100}vw`;
-            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            confetti.style.animationDelay = `${Math.random() * 3}s`;
-            body.appendChild(confetti);
-        }
-    }
+    // Confetti effect for success - REMOVED Confetti effect
+    //function createConfetti() {
+    //    const body = document.body;
+    //    for (let i = 0; i < 50; i++) {
+    //        const confetti = document.createElement('div');
+    //        confetti.className = 'confetti';
+    //        confetti.style.left = `${Math.random() * 100}vw`;
+    //        confetti.style.animationDelay = `${Math.random() * 3}s`;
+    //        body.appendChild(confetti);
+    //    }
+    //}
 
     const loginContainer = document.getElementById('login-container');
     const successContainer = document.getElementById('success-container');
@@ -213,12 +334,15 @@
     const userEmail = document.getElementById('userEmail');
     const funFact = document.getElementById('funFact');
     const loader = document.getElementById('loader');
+    const logoutModal = document.getElementById('logoutModal');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const cancelLogout = document.getElementById('cancelLogout');
 
     const funFacts = [
-        "You’re a GitHub OAuth maestro!",
-        "Welcome to the repo of awesomeness!",
-        "You’ve just starred security!",
-        "Commit complete—epic win!"
+        "You’ve unlocked the digital frontier!",
+        "Welcome to a world of secure connections!",
+        "Your journey begins with brilliance!",
+        "Celebrate your victorious login!"
     ];
 
     function showPage() {
@@ -228,7 +352,7 @@
             successContainer.classList.add('success');
             loader.style.display = 'block';
             fetchUserInfo();
-            createConfetti();
+            //createConfetti(); // REMOVED Confetti
         } else {
             loginContainer.classList.remove('hidden');
             successContainer.classList.add('hidden');
@@ -237,7 +361,7 @@
     }
 
     function fetchUserInfo() {
-        fetch('/user-info')
+        fetch('http://localhost:8080/user-info')
             .then(response => {
                 if (!response.ok) throw new Error('Not authenticated');
                 return response.json();
@@ -249,17 +373,31 @@
                 loader.style.display = 'none';
             })
             .catch(error => {
-                console.error('Error:', error);
-                window.location.href = '/';
+                console.error('Fetch error:', error);
+                window.location.href = 'http://localhost:8080/';
             });
     }
 
     loginBtn.addEventListener('click', () => {
-        window.location.href = '/oauth2/authorization/github'; // Changed to GitHub
+        console.log('Attempting to redirect to GitHub OAuth...');
+        try {
+            window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+        } catch (error) {
+            console.error('Redirect failed:', error);
+        }
     });
 
     logoutBtn.addEventListener('click', () => {
-        window.location.href = '/logout';
+        logoutModal.style.display = 'flex';
+    });
+
+    confirmLogout.addEventListener('click', () => {
+        window.location.href = 'http://localhost:8080/logout';
+        logoutModal.style.display = 'none';
+    });
+
+    cancelLogout.addEventListener('click', () => {
+        logoutModal.style.display = 'none';
     });
 
     showPage();
