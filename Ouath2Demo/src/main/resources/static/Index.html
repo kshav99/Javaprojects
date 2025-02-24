@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth2 Odyssey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4a00e0, #8e2de2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.29,158,28,58.36-4.53,112.39-28.69,171-28.69,58.62,0,116.61,24.16,175,28.69,54.41,4.28,110.21-5.81,158-28C720.61,21.51,776.41,11.42,834,15.71c58.62,4.29,116.61,24.16,175,28.69C1063.41,48.68,1119.21,38.59,1167,16.39,1214.8-5.81,1200,0,1200,0H0Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            animation: waveMove 10s infinite linear;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-25%); }
+            100% { transform: translateX(0); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 0 0 20px rgba(142, 45, 226, 0.3);
+            width: 450px;
+            text-align: center;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container.success {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 0 0 30px rgba(0, 255, 127, 0.5);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            background: linear-gradient(45deg, #181818, #4078c0); /* GitHub colors */
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn.logout {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .highlight {
+            color: #4078c0; /* GitHub blue */
+            font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .fun-fact {
+            font-style: italic;
+            color: #8e2de2;
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float 12s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(1); }
+            100% { transform: translateY(-20vh) scale(0.8); }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: hsl(0, 100%, 50%);
+            animation: fall 4s linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4078c0;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="wave"></div>
+<div id="particles"></div>
+<div class="container" id="login-container">
+    <h1>OAuth2 Odyssey</h1>
+    <p>Start your quest with GitHub:</p>
+    <button class="btn" id="loginBtn">Login with GitHub</button>
+</div>
+<div class="container hidden" id="success-container">
+    <h1>Quest Complete!</h1>
+    <p>Welcome, <span class="highlight" id="userName">Explorer</span>!</p>
+    <p>Email: <span class="highlight" id="userEmail">email@example.com</span></p>
+    <div class="loader" id="loader"></div>
+    <p class="fun-fact" id="funFact">Loading your victory message...</p>
+    <button class="btn logout" id="logoutBtn">Logout</button>
+</div>
+
+<script>
+    function createParticles() {
+        const particlesDiv = document.getElementById('particles');
+        for (let i = 0; i < 60; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = `${Math.random() * 6 + 2}px`;
+            particle.style.height = particle.style.width;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.animationDuration = `${Math.random() * 8 + 8}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particlesDiv.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    function createConfetti() {
+        const body = document.body;
+        for (let i = 0; i < 40; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = `${Math.random() * 100}vw`;
+            confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.animationDelay = `${Math.random() * 3}s`;
+            body.appendChild(confetti);
+        }
+    }
+
+    const loginContainer = document.getElementById('login-container');
+    const successContainer = document.getElementById('success-container');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const funFact = document.getElementById('funFact');
+    const loader = document.getElementById('loader');
+
+    const funFacts = [
+        "You’re a GitHub OAuth maestro!",
+        "Welcome to the repo of awesomeness!",
+        "You’ve just starred security!",
+        "Commit complete—epic win!"
+    ];
+
+    function showPage() {
+        if (window.location.pathname === '/success') {
+            loginContainer.classList.add('hidden');
+            successContainer.classList.remove('hidden');
+            successContainer.classList.add('success');
+            loader.style.display = 'block';
+            fetchUserInfo();
+            createConfetti();
+        } else {
+            loginContainer.classList.remove('hidden');
+            successContainer.classList.add('hidden');
+            successContainer.classList.remove('success');
+        }
+    }
+
+    function fetchUserInfo() {
+        fetch('/user-info')
+            .then(response => {
+                if (!response.ok) throw new Error('Not authenticated');
+                return response.json();
+            })
+            .then(data => {
+                userName.textContent = data.name || 'Explorer';
+                userEmail.textContent = data.email || 'No email provided';
+                funFact.textContent = funFacts[Math.floor(Math.random() * funFacts.length)];
+                loader.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = '/';
+            });
+    }
+
+    loginBtn.addEventListener('click', () => {
+        window.location.href = '/oauth2/authorization/github'; // Changed to GitHub
+    });
+
+    logoutBtn.addEventListener('click', () => {
+        window.location.href = '/logout';
+    });
+
+    showPage();
+    window.addEventListener('popstate', showPage);
+</script>
+</body>
+</html>

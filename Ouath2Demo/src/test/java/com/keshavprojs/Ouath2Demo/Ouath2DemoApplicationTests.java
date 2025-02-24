@@ -1,10 +1,10 @@
-package com.keshavprojs.Oauth2;
+package com.keshavprojs.Ouath2Demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Oauth2ApplicationTests {
+class Ouath2DemoApplicationTests {
 
 	@Test
 	void contextLoads() {
