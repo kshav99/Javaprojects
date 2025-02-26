@@ -5,64 +5,87 @@
     <title>Rate Limiter Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { padding: 20px; background-color: #f8f9fa; }
-        .card { margin-bottom: 20px; }
-        .form-container { max-width: 400px; }
+        body { padding: 20px; background: linear-gradient(135deg, #e0eafc, #cfdef3); }
+        .header { background: #0d6efd; color: white; padding: 15px; border-radius: 10px; }
+        .card { margin-bottom: 20px; border: none; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card.requests { background: #d4edda; }
+        .card.blocked { background: #f8d7da; }
+        .card.rule { background: #fff3cd; }
+        .form-container { max-width: 400px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .btn-primary { background: #0d6efd; border: none; }
+        .btn-primary:hover { background: #0b5ed7; }
+        .btn-reset { background-color: #dc3545; border: none; color: white; } /* Red button for reset */
+        .btn-reset:hover { background-color: #c82333; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1 class="text-center mb-4">Rate Limiter Dashboard</h1>
+    <h1 class="text-center mb-4 header">Rate Limiter Dashboard</h1>
 
-    <!-- Stats Section -->
     <div class="row">
         <div class="col-md-6">
-            <div class="card">
+            <div class="card requests">
                 <div class="card-body">
                     <h5 class="card-title">Total Requests</h5>
-                    <p class="card-text" th:text="${totalRequests}">0</p>
+                    <p class="card-text" id="totalRequests" th:text="${totalRequests}">0</p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="card">
+            <div class="card blocked">
                 <div class="card-body">
                     <h5 class="card-title">Blocked Requests</h5>
-                    <p class="card-text" th:text="${blockedRequests}">0</p>
+                    <p class="card-text" id="blockedRequests" th:text="${blockedRequests}">0</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Current Rule Section -->
-    <div class="card">
+    <div class="card rule">
         <div class="card-body">
             <h5 class="card-title">Current Rule</h5>
             <p class="card-text">
-                Max Requests: <span th:text="${maxRequests}"></span> |
-                Window: <span th:text="${windowSeconds}"></span> seconds
+                Max Requests: <span id="currentMaxRequests" th:text="${maxRequests}"></span> |
+                Window: <span id="currentWindowSeconds" th:text="${windowSeconds}"></span> seconds
             </p>
         </div>
     </div>
 
-    <!-- Update Rule Form -->
     <div class="form-container">
         <h3 class="mt-4">Update Rule</h3>
         <form action="/update-rule" method="post" class="needs-validation" novalidate>
             <div class="mb-3">
-                <label for="maxRequests" class="form-label">Max Requests</label>
-                <input type="number" class="form-control" id="maxRequests" name="maxRequests" required>
+                <label for="maxRequestsInput" class="form-label">Max Requests</label>
+                <input type="number" class="form-control" id="maxRequestsInput" name="maxRequests" required>
             </div>
             <div class="mb-3">
-                <label for="windowSeconds" class="form-label">Window (seconds)</label>
-                <input type="number" class="form-control" id="windowSeconds" name="windowSeconds" required>
+                <label for="windowSecondsInput" class="form-label">Window (seconds)</label>
+                <input type="number" class="form-control" id="windowSecondsInput" name="windowSeconds" required>
             </div>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <div class="d-grid gap-2 mb-3">
+                <button type="submit" class="btn btn-primary">Update Rule</button>
+            </div>
+        </form>
+        <form action="/reset-all" method="post">
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-reset">Reset All</button>
+            </div>
         </form>
     </div>
 </div>
 
-<!-- Bootstrap JS (optional, for form validation) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const source = new EventSource('/stats-stream');
+    source.onmessage = function(event) {
+        console.log("SSE Update:", event.data);
+        const data = JSON.parse(event.data);
+        document.getElementById('totalRequests').textContent = data.totalRequests;
+        document.getElementById('blockedRequests').textContent = data.blockedRequests;
+        document.getElementById('currentMaxRequests').textContent = data.maxRequests;
+        document.getElementById('currentWindowSeconds').textContent = data.windowSeconds;
+    };
+    source.onerror = function() { console.log("SSE Error"); };
+</script>
 </body>
 </html>
