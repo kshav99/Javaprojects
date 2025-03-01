@@ -1,46 +1,43 @@
 package com.keshavprojs.DataFlowEngine;
 
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-
-import org.springframework.beans.factory.annotation.Autowired; // Import for Autowired - although constructor injection is preferred.
-
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
-import org.springframework.boot.CommandLineRunner; // Alternative if ApplicationRunner not preferred
 
-@Component
-@ConditionalOnBean(BlockingQueue.class) // Only create this bean if BlockingQueue bean is present
-public class DataGenerator implements CommandLineRunner { // Implements CommandLineRunner
-
+public class DataGenerator implements Runnable {
     private final BlockingQueue<DataPoint> dataQueue;
     private final Random random = new Random();
     private static int sensorIdCounter = 1;
+    private volatile boolean running = true;
 
-    @Autowired // Explicit Autowired is often optional with constructor injection in recent Spring versions, but good to be explicit here for clarity.
     public DataGenerator(BlockingQueue<DataPoint> dataQueue) {
         this.dataQueue = dataQueue;
+        System.out.println("DataGenerator initialized");
     }
 
     @Override
-    public void run(String... args) throws Exception { // Implement CommandLineRunner's run method
+    public void run() {
+        System.out.println("DataGenerator started on thread: " + Thread.currentThread().getName());
         try {
-            while (true) {
+            while (running) {
                 DataPoint dataPoint = generateDataPoint();
+                System.out.println("Generated: " + dataPoint);
                 dataQueue.put(dataPoint);
-                System.out.println("Generated and added to queue: " + dataPoint + " (Thread: " + Thread.currentThread().getName() + ")");
-                Thread.sleep(1000);
+                System.out.println("Added to queue: " + dataPoint + " (Queue size: " + dataQueue.size() + ")");
+                Thread.sleep(1000); // Simulate delay of 1 second per data point
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            System.err.println("Data Generator interrupted: " + e.getMessage());
+            System.out.println("DataGenerator interrupted: " + e.getMessage());
         }
     }
 
     private DataPoint generateDataPoint() {
         String sensorId = "sensor-" + sensorIdCounter++;
-        int value = random.nextInt(100);
+        int value = random.nextInt(100); // Random value between 0-99
         return new DataPoint(sensorId, value);
+    }
+
+    public void stop() {
+        running = false;
     }
 }
